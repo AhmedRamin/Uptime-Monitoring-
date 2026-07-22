@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "lodash": "^4.18.1",
+    "yarn": "^1.22.22"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
