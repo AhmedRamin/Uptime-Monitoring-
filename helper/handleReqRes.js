@@ -31,7 +31,7 @@ handler.handleReqRes = (req, res) => {
   // console.log(queryStringObject);
   const headerobject = req.headers;
   // console.log(headerobject);
-
+  const body = {};
   const requestProperties = {
     parseurl,
     path,
@@ -39,22 +39,12 @@ handler.handleReqRes = (req, res) => {
     method,
     queryStringObject,
     headerobject,
+    body,
   };
   //check which router path -it is a function
   const chosenHandler = routes[trimmedpath]
     ? routes[trimmedpath]
     : notfoundhandler;
-
-  chosenHandler(requestProperties, (statusCode, payload) => {
-    statusCode = typeof statusCode === "number" ? statusCode : 504;
-    payload = typeof payload === "object" ? payload : {};
-
-    const payloadString = JSON.stringify(payload);
-    // return the final response
-    res.setHeader("Content-Type", "application/json");
-    res.writeHead(statusCode);
-    res.end(payloadString);
-  });
 
   //decoding
   const decoder = new StringDecoder("utf-8");
@@ -68,10 +58,20 @@ handler.handleReqRes = (req, res) => {
   req.on("end", () => {
     realData += decoder.end();
 
-    console.log(realData);
+    requestProperties.body = realData;
+    console.log(requestProperties.body);
+    chosenHandler(requestProperties, (statusCode, payload) => {
+      statusCode = typeof statusCode === "number" ? statusCode : 504;
+      payload = typeof payload === "object" ? payload : {};
 
+      const payloadString = JSON.stringify(payload);
+      // return the final response
+      res.setHeader("Content-Type", "application/json");
+      res.writeHead(statusCode);
+      res.end(payloadString);
+    });
     // response handle
-    res.end("Hello, Bangladesh");
+    //  res.end("Hello, Bangladesh");
   });
 };
 //module export
