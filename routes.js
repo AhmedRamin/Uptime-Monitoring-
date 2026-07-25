@@ -11,11 +11,13 @@ Date :22-07-2026
 // dependencies
 const { sampleHandler } = require("./handlers/routeHandlers/sampleHandlers");
 const { aboutHandler } = require("./handlers/routeHandlers/abouthandelers");
+const { userHandler } = require("./handlers/routeHandlers/userHandler");
 //routing
 
 const routes = {
   sample: sampleHandler,
   about: aboutHandler,
+  user: userHandler,
 };
 
 module.exports = routes;

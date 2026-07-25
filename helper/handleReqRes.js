@@ -14,6 +14,7 @@ const url = require("url");
 const routes = require("../routes");
 const { notfoundhandler } = require("../handlers/notfoundHandler");
 const { json } = require("stream/consumers");
+const { parseJSON } = require("./utilily");
 //module scaffolding
 const handler = {};
 
@@ -21,10 +22,10 @@ handler.handleReqRes = (req, res) => {
   //request handling
   // get the url and parse it
   const parseurl = url.parse(req.url, true);
-  console.log(parseurl);
+  //console.log(parseurl);
   const path = parseurl.pathname;
   const trimmedpath = path.replace(/^\/+|\/+$/g, "");
-  console.log(trimmedpath);
+  // console.log(trimmedpath);
   const method = req.method.toLowerCase();
   //console.log(method);
   const queryStringObject = parseurl.query;
@@ -58,7 +59,8 @@ handler.handleReqRes = (req, res) => {
   req.on("end", () => {
     realData += decoder.end();
 
-    requestProperties.body = realData;
+    requestProperties.body = parseJSON(realData);
+
     console.log(requestProperties.body);
     chosenHandler(requestProperties, (statusCode, payload) => {
       statusCode = typeof statusCode === "number" ? statusCode : 504;
