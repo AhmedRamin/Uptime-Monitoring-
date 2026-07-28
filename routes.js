@@ -12,12 +12,14 @@ Date :22-07-2026
 const { sampleHandler } = require("./handlers/routeHandlers/sampleHandlers");
 const { aboutHandler } = require("./handlers/routeHandlers/abouthandelers");
 const { userHandler } = require("./handlers/routeHandlers/userHandler");
+const { tokenHandler } = require("./handlers/routeHandlers/tokenHandler");
 //routing
 
 const routes = {
   sample: sampleHandler,
   about: aboutHandler,
   user: userHandler,
+  token: tokenHandler,
 };
 
 module.exports = routes;
